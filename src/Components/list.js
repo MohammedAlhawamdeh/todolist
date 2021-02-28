@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import React from 'react';
 
 
@@ -9,10 +8,13 @@ export default function TodoList(props) {
         <li
           className={`complete-${item.complete.toString()}`}
           key={item._id}
+
         >
           <span onClick={() => props.handleComplete(item._id)}>
             {item.text}
           </span>
+          <small>{item.difficulty}</small>
+          <button onClick={() => props.handleDelete(item)}>X</button>
         </li>
       ))}
     </ul>
