@@ -1,13 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+// import { ListProvider } from '../context/listContext.js';
 import useAjax from '../custom-hooks/useAjax.js';
 import TodoForm from './form.js';
-import TodoList from './list.js';
 
 import './todo.scss';
 
 const ToDo = () => {
-  const [_addItem, _toggleComplete, _getTodoItems, _deleteItems, list] = useAjax()
+  const [_addItem, _toggleComplete, _getTodoItems, _deleteItems, _hideItems, sorted, list] = useAjax()
   useEffect(_getTodoItems, []);
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const [todosPerPage, setTodosPerPage] = useState(3)
+  const pageNumbers = []
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+
+  let currentTodos = list.slice(indexOfFirstTodo, indexOfLastTodo)
+  for (let i = 1; i <= Math.ceil(list.length / todosPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+
   return (
     <>
       <header>
@@ -23,11 +36,35 @@ const ToDo = () => {
         </div>
 
         <div>
-          <TodoList
-            list={list}
-            handleComplete={_toggleComplete}
-            handleDelete={_deleteItems}
-          />
+          <ul>
+            {currentTodos.map(item => (
+              <li
+                className={`complete-${item.complete.toString()}`}
+                key={item._id}
+              >
+                <span onClick={() => _toggleComplete(item._id)}>
+                  {item.text}
+                </span>
+                <small>{item.difficulty}</small>
+                <button onClick={() => _deleteItems(item)}>X</button>
+              </li>
+            ))}
+            {
+              pageNumbers.map(number => {
+                return (
+                  <button
+                    key={number}
+                    id={number}
+                    onClick={(event) => { setCurrentPage(Number(event.target.id)) }}
+                  >
+                    {number}
+                  </button>
+                );
+              })
+            }
+            <button onClick={_hideItems}>hide</button>
+            <button onClick={sorted}>Sort By Difficulty</button>
+          </ul>
         </div>
       </section>
     </>

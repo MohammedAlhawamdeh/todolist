@@ -11,6 +11,7 @@ export default () => {
         })
             .then(data => {
                 setList([...list, data.data])
+
             })
     }
     const _toggleComplete = id => {
@@ -36,5 +37,17 @@ export default () => {
         let deletedItem = await axios.delete(url)
         setList(list.filter((listItem) => listItem._id === deletedItem.data._id ? '' : listItem))
     }
-    return [_addItem, _toggleComplete, _getTodoItems, _deleteItems, list]
+    const _hideItems = () => {
+        setList(list.filter(listItem => (
+            listItem.complete === false
+        )))
+    }
+    const sorted = () => {
+        setList(list.sort((a, b) => {
+            return b.difficulty - a.difficulty
+        }))
+
+
+    }
+    return [_addItem, _toggleComplete, _getTodoItems, _deleteItems, _hideItems, sorted, list]
 }
