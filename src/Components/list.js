@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { ListContext } from '../context/listContext'
+import Auth from './auth/auth'
 
 
 export default function TodoList(props) {
@@ -16,12 +17,13 @@ export default function TodoList(props) {
     pageNumbers.push(i);
   }
   return (
-    <div>
+    <>
+    <Auth capabilty="update">
       <ul>
         {currentTodos.map(item => (
           <li
-            className={`complete-${item.complete.toString()}`}
-            key={item._id}
+          className={`complete-${item.complete.toString()}`}
+          key={item._id}
           >
             <span onClick={() => context._toggleComplete(item._id)}>
               {item.text}
@@ -34,7 +36,7 @@ export default function TodoList(props) {
           pageNumbers.map(number => {
             return (
               <button
-                key={number}
+              key={number}
                 id={number}
                 onClick={(event) => { setCurrentPage(Number(event.target.id)) }}
               >
@@ -47,7 +49,8 @@ export default function TodoList(props) {
       <button onClick={() => context._hideItems()}>Hide Completed Items</button>
       <button onClick={() => context._showItems()}>Show All Items</button>
       <button onClick={() => context.sorted()}>Sort By Difficulty</button>
-    </div>
+        </Auth>
+    </>
   )
 }
 
