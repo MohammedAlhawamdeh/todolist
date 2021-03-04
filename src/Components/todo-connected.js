@@ -24,6 +24,7 @@ const ToDo = () => {
       <ListProvider value={state}>
         <header>
           <h2>
+            {console.log(list)}
             There are {list.filter(item => !item.complete).length} Items To Complete
         </h2>
         </header>
