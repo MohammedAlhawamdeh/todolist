@@ -46,9 +46,9 @@ export default () => {
         _getTodoItems()
     }
     const sorted = () => {
-        setList(list.sort((a, b) => {
+        setList([...list.sort((a, b) => {
             return b.difficulty - a.difficulty
-        }))
+        })])
 
 
     }
