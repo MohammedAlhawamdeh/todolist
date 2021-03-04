@@ -1,8 +1,8 @@
 import React from 'react'
 
-const listContext = React.createContext()
+const ListContext = React.createContext()
 
-const ListProvider = listContext.Provider
-const ListConsumer = listContext.Consumer
+const ListProvider = ListContext.Provider
 
-export { ListProvider, ListConsumer }
+
+export { ListContext, ListProvider }

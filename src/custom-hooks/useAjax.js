@@ -42,12 +42,15 @@ export default () => {
             listItem.complete === false
         )))
     }
+    const _showItems = () => {
+        _getTodoItems()
+    }
     const sorted = () => {
-        setList(list.sort((a, b) => {
+        setList([...list.sort((a, b) => {
             return b.difficulty - a.difficulty
-        }))
+        })])
 
 
     }
-    return [_addItem, _toggleComplete, _getTodoItems, _deleteItems, _hideItems, sorted, list]
+    return [_addItem, _toggleComplete, _getTodoItems, _deleteItems, _hideItems, _showItems, sorted, list]
 }
