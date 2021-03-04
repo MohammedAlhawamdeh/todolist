@@ -27,13 +27,14 @@ const LoginProvider = (props) => {
     }
 
     const signup = (state) => {
+
         axios({
             method: 'post',
             url: `${API}/signup`,
             data: state,
-
         })
             .then(response => {
+                console.log('response :', response.data);
                 validateToken(response?.data?.token);
             })
             .catch(console.error);

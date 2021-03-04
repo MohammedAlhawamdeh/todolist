@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { LoginContext } from './context'
+import { If, Then, Else } from 'react-if'
 
 function Signup() {
     const context = useContext(LoginContext)
@@ -20,6 +21,9 @@ function Signup() {
     }
     return (
         <>
+          <If condition={!context.loggedIn}>
+                <Then>
+                    <h3>Sign up to use the APP</h3>
             <form onSubmit={handleSubmit}>
                 <label>Username</label>
                 <input type="text" name='username' />
@@ -38,6 +42,8 @@ function Signup() {
                 </select>
                 <input type="submit" />
             </form>
+                </Then>
+            </If>
         </>
     )
 }
