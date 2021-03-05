@@ -3,7 +3,7 @@ import { LoginContext } from './context'
 import { If } from 'react-if'
 
 const Auth = (props) => {
-console.log('props :', props.children);
+
 
     const context = useContext(LoginContext);
     const [okToRender, setOkToRender] = useState(false)

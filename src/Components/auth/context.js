@@ -5,23 +5,23 @@ import jwt from 'jsonwebtoken';
 
 
 export const LoginContext = React.createContext()
-
-const API = 'https://api-js401.herokuapp.com'
+const API = 'https://deployed-api-server.herokuapp.com'
 
 const LoginProvider = (props) => {
 
     const [loggedIn, setLoggedIn] = useState(false)
     const [user, setUser] = useState({})
     const [token, setToken] = useState()
-    const can = (capability) => {
-        return state.user?.capabilities?.includes(capability);
-    }
 
+    const can = (acl) => {
+        return state.user?.acl?.includes(acl);
+
+    }
     const login = (username, password) => {
         const auth = { username, password };
         axios.post(`${API}/signin`, {}, { auth })
             .then(response => {
-                validateToken(response?.data?.token);
+                validateToken(response?.data);
             })
             .catch(console.error);
     }
@@ -32,21 +32,24 @@ const LoginProvider = (props) => {
             method: 'post',
             url: `${API}/signup`,
             data: state,
+
         })
             .then(response => {
-                console.log('response :', response.data);
-                validateToken(response?.data?.token);
+                console.log(response)
+                validateToken(response?.data);
+
             })
             .catch(console.error);
     }
 
     const validateToken = useCallback(token => {
         try {
-            const user = jwt.verify(token, "supersecret");
+            const user = jwt.verify(token, "NoBodyKnow");
+            console.log('user :', user);
             setLoginState(true, token, user);
         }
         catch (e) {
-            console.log('in validate token');
+            console.log('invalid token');
             setLoginState(false, null, {});
             console.log('Token Validation Error', e);
         }
@@ -80,8 +83,6 @@ const LoginProvider = (props) => {
         user,
         token,
     };
-
-
     return (
         <LoginContext.Provider value={state}>
             {props.children}
@@ -89,5 +90,4 @@ const LoginProvider = (props) => {
     );
 
 }
-
 export default LoginProvider;
